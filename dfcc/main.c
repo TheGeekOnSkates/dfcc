@@ -132,6 +132,19 @@ void Save(const char* fileName, uint8_t* binary, size_t size) {
 	fclose(file);
 }
 
+void ShowHelp() {
+	printf("\nDFCC: DIRT'S FORTH CHIP COMPILER\n\n");
+	printf("Usage:\n");
+	printf("    dfcc inputFile outputFile\n\tdfcc -v|--version\n\n");
+	printf("Command-line options:\n");
+	printf("    inputFile:         Name/path of the file to be compiled\n");
+	printf("    outputFile:        Name/path of the compiled binary\n");
+	printf("                       (what to call the compiled file)\n");
+	printf("    -v or --version:   Print the version number\n\n");
+	printf("Example:\n");
+	printf("    dfcc ./myFile.fs ./myBinary\n\n");
+}
+
 /**
  * Main entry point - the program starts here. :)
  * @param[in] The number of command-line parameters
@@ -141,10 +154,18 @@ void Save(const char* fileName, uint8_t* binary, size_t size) {
 int main(int argc, const char** argv) {
 	uint8_t binary[1024];	
 	size_t bytesRead = 0;
-	if (argc != 3) {
-		printf("Usage: dfcc inputFile outputFile\n");
+	if (argc == 2) {
+		if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0)
+			printf("dfcc version 1.0.0\n");
+		else ShowHelp();
 		return 0;
 	}
+	
+	if (argc != 3) {
+		ShowHelp();
+		return 0;
+	}
+	
 	bytesRead = Compile(argv[1], binary);
 	Save(argv[2], binary, bytesRead);
 	return 0;
