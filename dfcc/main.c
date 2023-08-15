@@ -83,7 +83,7 @@ uint8_t Word2Opcode(char* word) {
  * @param[in] The name/path of the file to be compiled
  * @param[out] The compiled binary will be stored here
  */
-void Compile(const char* fileName, uint8_t* output) {
+size_t Compile(const char* fileName, uint8_t* output) {
 	char line[1024], * temp = NULL;
 	size_t i = 0;
 	FILE* file = fopen(fileName, "r");
@@ -108,6 +108,28 @@ void Compile(const char* fileName, uint8_t* output) {
 		}
 	}
 	fclose(file);
+	return i -1;	// - 1 because of the i++ loop bove
+}
+
+/**
+ * Saves compiled binary data to a file
+ * @param[in] The name/path of the file to be compiled
+ * @param[in] The compiled binary
+ * @param[in] The size of the file, in bytes
+ */
+void Save(const char* fileName, uint8_t* binary, size_t size) {
+	FILE* file = fopen(fileName, "wb");
+	if (file == NULL) {
+		perror("Error opening output file");
+		exit(0);
+	}
+	fwrite(binary, 1, size, file);
+	if (ferror(file)) {
+		perror("Error writing to output file");
+		fclose(file);
+		exit(0);
+	}
+	fclose(file);
 }
 
 /**
@@ -117,28 +139,14 @@ void Compile(const char* fileName, uint8_t* output) {
  * @returns Zero unless the OS says otherwise
  */
 int main(int argc, const char** argv) {
-	/*
-	For now going with 1 KB based on my understanding of the line:
-	1k core execute user execute kernal execute app execute
-	*/
 	uint8_t binary[1024];	
-	
-	/* If we don't have both file names, show the user how this works */
+	size_t bytesRead = 0;
 	if (argc != 3) {
 		printf("Usage: dfcc inputFile outputFile\n");
 		return 0;
 	}
-	
-	Compile(argv[1], binary);
-	
-	
-	
-	/*
-	Worked
-	strncpy(line, argv[1], 1024);
-	StringToUpperCase(line);
-	printf("Line: %s\n", line);
-	*/
+	bytesRead = Compile(argv[1], binary);
+	Save(argv[2], binary, bytesRead);
 	return 0;
 }
 
