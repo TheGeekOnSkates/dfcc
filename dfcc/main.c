@@ -99,6 +99,7 @@ uint8_t Word2Opcode(char* word) {
 size_t Compile(const char* fileName, uint8_t* output) {
 	char line[1024], * temp = NULL;
 	size_t i = 0;
+	int32_t literal;
 	FILE* file = fopen(fileName, "r");
 	if (file == NULL) {
 		perror("Error opening input file");
@@ -140,7 +141,17 @@ size_t Compile(const char* fileName, uint8_t* output) {
 				// how many bytes do we store that number in?  For now, 1.
 				output[i] = DOLIT;
 				i++;
-				output[i] = atoi(temp);
+				literal = atoi(temp);
+				output[i] = literal % 256;
+				literal >>= 8;
+				i++;
+				output[i] = literal % 256;
+				literal >>= 8;
+				i++;
+				output[i] = literal % 256;
+				literal >>= 8;
+				i++;
+				output[i] = literal % 256;
 			}
 			
 			// And continue the loop
@@ -173,6 +184,9 @@ void Save(const char* fileName, uint8_t* binary, size_t size) {
 	fclose(file);
 }
 
+/**
+ * Shows command-line usage and an exmple or two
+ */
 void ShowHelp() {
 	printf("\nDFCC: DIRT'S FORTH CHIP COMPILER\n\n");
 	printf("Usage:\n");

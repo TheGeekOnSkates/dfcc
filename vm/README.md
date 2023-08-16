@@ -22,21 +22,26 @@ Markdown seriously needs a way to do tables.  I'm a big fan of just using the Ta
 1. Fetch address in IP to Jump Table
 2. Increase IP
 3. Jump to address
+
 **ASCII code:** 0
 
 **Primitive:** `DOLIST`
 **Function:** Push IP to return stack
 **Steps:**
+
 1. Push IP to RS
 2. Copy first address to IP
 3. Jump to Subroutine Next
+
 **ASCII code:** 1
 
 **Primitive:** `EXIT`
 **Function:** Pop return stack to IP
 **Steps:** 
+
 1. Pop RS to IP
 2. Jump to Subroutine Next
+
 **ASCII code:** 2
 
 **Primitive:** `BYE`
@@ -48,8 +53,10 @@ Markdown seriously needs a way to do tables.  I'm a big fan of just using the Ta
 **Primitive:** `?RX`
 **Function:** Reads character from input device
 **Steps:** 
+
 1. Test for character input (just 1 char)
 2. Push the input char and true (-1?) on the stack, or false (0) if there is no char
+
 **ASCII code:** 4
 
 **Primitive:** `TX!`
@@ -66,8 +73,10 @@ Markdown seriously needs a way to do tables.  I'm a big fan of just using the Ta
 **Primitive:** `EXECUTE`
 **Function:** Execute code at address
 **Steps:** 
+
 1. Get address from stack
 2. Jump
+
 **ASCII code:** 7
 
 **Primitive:** `DOLIT`
@@ -86,7 +95,7 @@ Markdown seriously needs a way to do tables.  I'm a big fan of just using the Ta
 **Function:** Branch if flag is 0
 **Steps:** 
 
-1.  Pop from stack
+1. Pop from stack
 2. Branch if the number just popped == 0
 
 **ASCII code:** 10
@@ -131,154 +140,82 @@ Markdown seriously needs a way to do tables.  I'm a big fan of just using the Ta
 **Steps:** Push current RP to stack
 **ASCII code:** 16
 
-**Primitive:** LEFT OFF HERE
-**Function:** 
-**Steps:** 
+**Primitive:** `RP!`
+**Function:** Push stack to RP
+**Steps:** Push stack to RP (his notes also said "init RP" - a step?)
 **ASCII code:** 17
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `R>`
+**Function:** Pop return stack to stack
+**Steps:** Pop return stack to stack
 **ASCII code:** 18
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `R@`
+**Function:** Copy return stack to stack
+**Steps:** Copy return stack to stack
 **ASCII code:** 19
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `>R`
+**Function:** Push stack to return stack
+**Steps:** Push stack to return stack
 **ASCII code:** 20
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `DROP`
+**Function:** Discard the top of stack
+**Steps:** Discard the top of stack
 **ASCII code:** 21
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `DUP`
+**Function:** Duplicate the top of stack
+**Steps:** Duplicate the top of stack
 **ASCII code:** 22
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `SWAP`
+**Function:** Change the places of the top two stack items
+**Steps:** Change the places of the top two stack items
 **ASCII code:** 23
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `OVER`
+**Function:** Copy the second stack item to the top of stack
+**Steps:** Copy the second stack item to the top of stack
 **ASCII code:** 24
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `SP@`
+**Function:** Push the current data stack pointer to top of stack
+**Steps:** Push the current data stack pointer to top of stack
 **ASCII code:** 25
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `SP!`
+**Function:** Push the address on stack to the data stack pointer
+**Steps:** Push the address on stack to the data stack pointer
 **ASCII code:** 26
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `0<`
+**Function:** Return true if negative 0 for positive, zero is positive
+**Steps:** Return true if negative 0 for positive, zero is positive
 **ASCII code:** 27
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `AND`
+**Function:** Bitwise And
+**Steps:** Bitwise And
 **ASCII code:** 28
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `OR`
+**Function:** Bitwise inclusive Or
+**Steps:** Bitwise inclusive Or
 **ASCII code:** 29
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `XOR`
+**Function:** Bitwise Exclusive Or
+**Steps:** Bitwise Exclusive Or
 **ASCII code:** 30
 
-**Primitive:** 
-**Function:** 
-**Steps:** 
+**Primitive:** `UM+`
+**Function:** Adds two unsigned numbers on stack and returns sum and carry
+**Steps:** Adds two unsigned numbers on stack and returns sum and carry
 **ASCII code:** 31
 
-## To be formatted
-
-Primitive Function Steps Ascii code
-Next fetch word in IP fetch address in IP to Jump Table 0
-inc IP inc IP
-jump jump to address
-
-doList push IP to return stack push IP to RS 1
-copy first address to IP copy address to IP
-calls Next Jump to Subroutine Next
-
-Exit pop return stack to IP pop RS to IP 2
-calls Next Jump to Subroutine Next
-
-Bye exits forth final return to where invoked 3
-
-?Rx reads character from input device test for character input 4
-returns input char and true or false if there is no char return false
-otherwise return char and true on stack
-
-Tx! sens char on stack to output device send char to output 5
-
-!Io Init IO device init io device 6
-
-Execute execute code at address get address from stack and jump 7
-
-doLit take the literal from inline code and put on stack read the number or text and push on stack 8
-
-Nextloop decrement index and exit loop if index <0 exit loop 9
-
-?branch branch if flag is 0 pop from stack flag, branch on 0 10
-
-branch branch to inline address IP = (IP) 11
-
-! write stack to address pop address then pop data write to address the data 12
-
-@ read address to stack pop address then pop data from address and push on stack 13
-
-C! same as ! But for bytes only 14
-
-C@ same as @ but for bytes only 15
-
-RP@ push current RP to stack 16
-
-RP! push stack to RP init RP 17
-
-R> pop return stack to stack 18
-
-R@ copy return stack to stack 19
-
->R push stack to return stack 20
-
-Drop discard the top of stack 21
-
-Dup duplicate the top of stack 22
-
-Swap Change the places of the top two stack items 23
-
-Over copy the second stack item to the top of stack 24
-
-SP@ push the current data stack pointer to top of stack 25
-
-SP! push the address on stack to the data stack pointer 26
-
-0< return true if negative 0 for positive, zero is positive 27
-
-And bitwise And 28
-
-Or bitwise inclusive Or 29
-
-Xor bitwise Exclusive Or 30
-
-UM+ adds two unsigned numbers on stack and returns sum and carry 31
+## To be formatted - looks like the precursor to a memory map
 
 size Forth Function Forth Function Classic Function Classic Function
 1k temp stack data stack addressing registers data registers
@@ -305,5 +242,4 @@ DRAM will be shared between all cores this will introduce a delay for the stack 
 Flash will be shared between all cores core word lookups are performed with the L1 cache as well as the page table lookups
 Storage will be shared between all cores when the dictionary gets too large it can also be virtualized
 Virtual pages can be rotated out to slower forms when usage is not warranted for immediate use
-
 
