@@ -51,10 +51,35 @@ Markdown seriously needs a way to do tables.  I'm a big fan of just using the Ta
 2. Push the input char and true (-1?) on the stack, or false (0) if there is no char
 **ASCII code:** 4
 
+**Primitive:** `TX!`
+**Function:** Sends char on stack to output device
+**Steps:** Send char to output
+**ASCII code:** 5
+
+**Primitive:** `!IO`
+**Function:** Init IO device
+**Steps:** Init IO device
+**ASCII code:** 6
+**NOTE:** What does this look like?  Like okay, I'm sure when teh program starts, it will probably load stdout, stdin and stderr; what about files?  I'm sure I'm *waaaay* ahead of myself here, but it seems like there will be multiple use cases for this word - maybe even an RS232 serial port or something. xD  Okay seriously tho, this one will probably be crazy-important for later.
+
+**Primitive:** `EXECUTE`
+**Function:** Execute code at address
+**Steps:** 
+1. Get address from stack
+2. Jump
+**ASCII code:** 7
+
+**Primitive:** `DOLIT`
+**Function:** Take the literal from inline code and put on the stack
+**Steps:** 
+1. Read the number or text
+2. Push it onto stack
+**ASCII code:** 8
+
 **Primitive:** LEFT OFF HERE
 **Function:** 
 **Steps:** 
-**ASCII code:** 5
+**ASCII code:** 
 
 **Primitive:** 
 **Function:** 
@@ -62,16 +87,6 @@ Markdown seriously needs a way to do tables.  I'm a big fan of just using the Ta
 **ASCII code:** 
 
 ## To be formatted
-
-Primitive Function Steps Ascii code
-
-Tx! sends char on stack to output device send char to output 5
-
-!Io Init IO device init io device 6
-
-Execute execute code at address get address from stack and jump 7
-
-doLit take the literal from inline code and put on stack read the number or text and push on stack 8
 
 Nextloop decrement index and exit loop if index <0 exit loop 9
 
