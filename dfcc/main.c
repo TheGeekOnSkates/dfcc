@@ -7,6 +7,20 @@
 #include "../ISA.h"
 
 /**
+ * Checks if a word is a number, with an optional negative sign
+ * @param[in] The number
+ * @returns True if it is, false if it isn't
+ */
+bool IsNumber(char* word) {
+	size_t i, length;
+	if (word == NULL) return false;
+	i = word[0] == '-' ? 1 : 0;
+	length = strlen(word);
+	for (; i<length; i++) if (!isdigit(word[i])) return false;
+	return true;
+}
+
+/**
  * Makes a string uppercase
  * @param[in, out] The string
  * @remarks This changes the original string, not a copy.
@@ -74,8 +88,7 @@ uint8_t Word2Opcode(char* word) {
 	if (strcmp(word, "0<") == 0) return COMPARE;
 	if (strcmp(word, ">R") == 0) return TO_R;
 	if (strcmp(word, "OVER") == 0) return OVER;
-	printf("Unknown instruction: %s\n", word);
-	exit(0);
+	return 255;	// for now
 }
 
 /**
@@ -92,17 +105,45 @@ size_t Compile(const char* fileName, uint8_t* output) {
 		exit(0);
 	}
 	while(!feof(file)) {
+		// Read the next line
 		fgets(line, 1024, file);
 		if (ferror(file)) {
 			perror("Error reading input file");
 			fclose(file);
 			exit(0);
 		}
+		
+		// Make it uppercase for easier string-comparison
 		StringToUpperCase(line);
+		
+		// Now go word-by-word, compiling everything it can.
 		temp = strtok(line, " \t\r\n");
 		while(temp != NULL) {
+			// If we've reached a comment, we're done with this line.
 			if (strcmp(temp, "\\") == 0) break;
+			
+			// Try to figure out which opcode the word is.
 			output[i] = Word2Opcode(temp);
+			
+			// If it failed to figure that out - at least for now - the
+			// number 255 is returned; in that case, check the word is a
+			// number (allowing negative signs but no decimal points)
+			if (output[i] == 255) {
+				
+				// If it's not a number, it's a user error. :)
+				if (!IsNumber(temp)) {
+					printf("Unknown instruction: %s\n", temp);
+					exit(0);
+				}
+				
+				// If it gets here, it's a number; now the question is,
+				// how many bytes do we store that number in?  For now, 1.
+				output[i] = DOLIT;
+				i++;
+				output[i] = atoi(temp);
+			}
+			
+			// And continue the loop
 			i++;
 			temp = strtok(NULL, " \t\r\n");
 		}
