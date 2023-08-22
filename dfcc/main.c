@@ -36,6 +36,9 @@ void StringToUpperCase(char* input) {
  * Compiles a single word to binary
  * @param[in] The word
  * @returns The binary equivalent of that word
+ * @todo Figure out how to handle the 2-word Classic Mode instructions;
+ * i.e. "load imm", "load reg" etc. all start with "load" so you don't know
+ * which it's gonna be until the NEXT word... a global variable maybe?
  */
 uint8_t Word2Opcode(char* word) {
 	if (word[0] == 'B') {
