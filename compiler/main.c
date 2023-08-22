@@ -36,14 +36,26 @@ void StringToUpperCase(char* input) {
  * Compiles a single word to binary
  * @param[in] The word
  * @returns The binary equivalent of that word
- * @todo Figure out how to handle the 2-word Classic Mode instructions;
- * i.e. "load imm", "load reg" etc. all start with "load" so you don't know
- * which it's gonna be until the NEXT word... a global variable maybe?
  */
 uint8_t Word2Opcode(char* word) {
+	if (word[0] == 'A') {
+		if (strcmp(word, "ADD_IMM") == 0) return ADD_IMM;
+		if (strcmp(word, "ADD_REG") == 0) return ADD_REG;
+		if (strcmp(word, "ADD_IDX") == 0) return ADD_IDX;
+		if (strcmp(word, "ADD_SPEC") == 0) return ADD_SPEC;
+		if (strcmp(word, "AND_IMM") == 0) return AND_IMM;
+		if (strcmp(word, "AND_REG") == 0) return AND_REG;
+		if (strcmp(word, "AND_IDX") == 0) return AND_IDX;
+		if (strcmp(word, "AND_SPEC") == 0) return AND_SPEC;
+		if (strcmp(word, "AND") == 0) return AND;
+	}
 	if (word[0] == 'B') {
 		if (strcmp(word, "BRANCH") == 0) return BRANCH;
 		if (strcmp(word, "BYE") == 0) return BYE;
+		if (strcmp(word, "BRANCH_IMM") == 0) return BRANCH_IMM;
+		if (strcmp(word, "BRANCH_REG") == 0) return BRANCH_REG;
+		if (strcmp(word, "BRANCH_IDX") == 0) return BRANCH_IDX;
+		if (strcmp(word, "BRANCH_SPEC") == 0) return BRANCH_SPEC;
 	}
 	if (word[0] == 'C') {
 		if (strcmp(word, "C@") == 0) return CFETCH;
@@ -54,14 +66,48 @@ uint8_t Word2Opcode(char* word) {
 		if (strcmp(word, "DOLIT") == 0) return DOLIT;
 		if (strcmp(word, "DROP") == 0) return DROP;
 		if (strcmp(word, "DUP") == 0) return DUP;
+		if (strcmp(word, "DIV_IMM") == 0) return DIV_IMM;
+		if (strcmp(word, "DIV_REG") == 0) return DIV_REG;
+		if (strcmp(word, "DIV_IDX") == 0) return DIV_IDX;
+		if (strcmp(word, "DIV_SPEC") == 0) return DIV_SPEC;
 	}
 	if (word[0] == 'E') {
 		if (strcmp(word, "EXECUTE") == 0) return EXECUTE;
 		if (strcmp(word, "EXIT") == 0) return EXIT;
 	}
+	if (word[0] == 'J') {
+		if (strcmp(word, "JUMP_IMM") == 0) return JUMP_IMM;
+		if (strcmp(word, "JUMP_REG") == 0) return JUMP_REG;
+		if (strcmp(word, "JUMP_IDX") == 0) return JUMP_IDX;
+		if (strcmp(word, "JUMP_SPEC") == 0) return JUMP_SPEC;
+	}
+	if (word[0] == 'L') {
+		if (strcmp(word, "LOAD_IMM") == 0) return LOAD_IMM;
+		if (strcmp(word, "LOAD_REG") == 0) return LOAD_REG;
+		if (strcmp(word, "LOAD_IDX") == 0) return LOAD_IDX;
+		if (strcmp(word, "LOAD_SPEC") == 0) return LOAD_SPEC;
+	}
+	if (word[0] == 'M') {
+		if (strcmp(word, "MULT_IMM") == 0) return MULT_IMM;
+		if (strcmp(word, "MULT_REG") == 0) return MULT_REG;
+		if (strcmp(word, "MULT_IDX") == 0) return MULT_IDX;
+		if (strcmp(word, "MULT_SPEC") == 0) return MULT_SPEC;
+	}
 	if (word[0] == 'N') {
 		if (strcmp(word, "NEXT") == 0) return NEXT;
 		if (strcmp(word, "NEXTLOOP") == 0) return NEXTLOOP;
+		if (strcmp(word, "NOT_IMM") == 0) return NOT_IMM;
+		if (strcmp(word, "NOT_REG") == 0) return NOT_REG;
+		if (strcmp(word, "NOT_IDX") == 0) return NOT_IDX;
+		if (strcmp(word, "NOT_SPEC") == 0) return NOT_SPEC;
+	}
+	if (word[0] == 'O') {
+		if (strcmp(word, "OR") == 0) return OR;
+		if (strcmp(word, "OR_IMM") == 0) return OR_IMM;
+		if (strcmp(word, "OR_REG") == 0) return OR_REG;
+		if (strcmp(word, "OR_IDX") == 0) return OR_IDX;
+		if (strcmp(word, "OR_SPEC") == 0) return OR_SPEC;
+		if (strcmp(word, "OVER") == 0) return OVER;
 	}
 	if (word[0] == 'R') {
 		if (strcmp(word, "RP@") == 0) return RP_FETCH;
@@ -73,6 +119,14 @@ uint8_t Word2Opcode(char* word) {
 		if (strcmp(word, "SP@") == 0) return SP_FETCH;
 		if (strcmp(word, "SP!") == 0) return SP_STORE;
 		if (strcmp(word, "SWAP") == 0) return SWAP;
+		if (strcmp(word, "STORE_IMM") == 0) return STORE_IMM;
+		if (strcmp(word, "STORE_REG") == 0) return STORE_REG;
+		if (strcmp(word, "STORE_IDX") == 0) return STORE_IDX;
+		if (strcmp(word, "STORE_SPEC") == 0) return STORE_SPEC;
+		if (strcmp(word, "SUB_IMM") == 0) return SUB_IMM;
+		if (strcmp(word, "SUB_REG") == 0) return SUB_REG;
+		if (strcmp(word, "SUB_IDX") == 0) return SUB_IDX;
+		if (strcmp(word, "SUB_SPEC") == 0) return SUB_SPEC;
 	}
 	if (word[0] == '?') {
 		if (strcmp(word, "?BRANCH") == 0) return QUESTION_BRANCH;
@@ -82,15 +136,18 @@ uint8_t Word2Opcode(char* word) {
 		if (strcmp(word, "!IO") == 0) return BANG_IO;
 		if (strcmp(word, "!") == 0) return STORE;
 	}
-	if (strcmp(word, "OR") == 0) return OR;
+	if (word[0] == 'X') {
+		if (strcmp(word, "XOR") == 0) return XOR;
+		if (strcmp(word, "XOR_IMM") == 0) return XOR_IMM;
+		if (strcmp(word, "XOR_REG") == 0) return XOR_REG;
+		if (strcmp(word, "XOR_IDX") == 0) return XOR_IDX;
+		if (strcmp(word, "XOR_SPEC") == 0) return XOR_SPEC;
+	}
 	if (strcmp(word, "TX!") == 0) return TX_BANG;
 	if (strcmp(word, "UM+") == 0) return UM_ADD;
-	if (strcmp(word, "AND") == 0) return AND;
-	if (strcmp(word, "XOR") == 0) return XOR;
 	if (strcmp(word, "@") == 0) return FETCH;
 	if (strcmp(word, "0<") == 0) return COMPARE;
 	if (strcmp(word, ">R") == 0) return TO_R;
-	if (strcmp(word, "OVER") == 0) return OVER;
 	return 255;	// for now
 }
 
