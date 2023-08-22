@@ -1,3 +1,23 @@
+# TO-DOs
+
+## Compiler:
+
+* Get it to recognize Classic Mode words
+* Rework `doLit` - it's not what I thought it was
+* Figure out how numbers are to be pushed onto the stack in Forth mode
+* In classic mode, once I know what the syntax is supposed to be for each instruction, set up the compiler to expect that syntax.  For example, let's say `load imm` means "load an 8-bit number into a 16-bit address" and the syntax is something like `LOAD $1234 #$FF`.  The compiler will see `LOAD` and then expect an address; it'll see the address and then expect a number; if it sees the "#" it'll know that's a literal number vs. `load reg`, whatever that turns out to mean.
+* At some point I'll probably want to set up a way to import/include files
+* I'm sure we'll also want a way to define constants, labels etc. but these are all way off.
+
+## Emulator
+
+I'm going to start out in Classic Mode, since I'm more familiar with classic Assembly than this funky Forth variant.  I've never seen "eForth" before, though Dirt has hooked his subscribers up with a PDF (gotta read that).  But the first thing I plan on doing is getting it to run Classic Mode instructions.
+* Once it does them all - and there are far less than 32 - then comes Forth Mode.  Some of the instructions are things I've done for my own 8-bit Forth (dup, swap, over, @, !, etc.) but a lot of them are not things I've ever seen in a Forth, so that's gonna be interesting.
+* And at that point - if (Lord willing, *WHEN*) the compiler and emulator are able to use the entire ISA - then it'll be time to turn my attention to the memory map.  Dirt's CPU is supposedly 32-bit, and he even has it set up to have multiple cores (which is new territory for me, as I've only ever worked with 1 core at this awesome low level).  But I'm sure for the emulator to truly emulate Dirt's CPU... I'll need to learn all that. :-)
+
+
+---------------------------------------------------------------------------
+
 # dfcc - Dirt's Forth Chip Compiler
 
 This project has three separate but related goals:
